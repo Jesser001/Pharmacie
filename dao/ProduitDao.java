@@ -62,7 +62,7 @@ public class ProduitDao {
         }
     }
 
-    // MÉTHODE CRITIQUE À AJOUTER
+    
     public List<Produit> tousLesProduits() {
         List<Produit> produits = new ArrayList<>();
         String sql = "SELECT * FROM produit ORDER BY id_produit";
@@ -85,7 +85,7 @@ public class ProduitDao {
         return produits;
     }
 
-    // Méthode pour mettre à jour un produit complet
+    
     public void updateProduit(Produit produit) {
         String sql = "UPDATE produit SET nom=?, prix=?, quantite_stock=?, seuil_alerte=? WHERE id_produit=?";
 
@@ -103,7 +103,7 @@ public class ProduitDao {
         }
     }
 
-    // Méthode pour supprimer un produit
+    
     public void supprimerProduit(int idProduit) {
         String sql = "DELETE FROM produit WHERE id_produit=?";
 

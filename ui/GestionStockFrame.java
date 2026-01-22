@@ -39,7 +39,7 @@ public class GestionStockFrame extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        // Configuration du tableau
+        
         String[] columns = {"ID", "Nom", "Prix (€)", "Quantité", "Seuil", "Statut"};
         model = new DefaultTableModel(columns, 0) {
             @Override
@@ -55,7 +55,7 @@ public class GestionStockFrame extends JFrame {
 
         JScrollPane scrollPane = new JScrollPane(table);
 
-        // Panneau de boutons
+        
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
         JButton btnAjouter = new JButton("➕ Ajouter");
@@ -64,7 +64,7 @@ public class GestionStockFrame extends JFrame {
         JButton btnRafraichir = new JButton("🔄 Rafraîchir");
         JButton btnFermer = new JButton("❌ Fermer");
 
-        // Styliser les boutons
+        
         Color btnColor = new Color(70, 130, 180);
         Font btnFont = new Font("Arial", Font.BOLD, 12);
 
@@ -76,7 +76,7 @@ public class GestionStockFrame extends JFrame {
             btn.setBorder(BorderFactory.createEmptyBorder(8, 15, 8, 15));
         }
 
-        // Action Listeners
+       
         btnAjouter.addActionListener(e -> ajouterProduit());
 
         btnModifier.addActionListener(e -> modifierProduit());
@@ -87,18 +87,18 @@ public class GestionStockFrame extends JFrame {
 
         btnFermer.addActionListener(e -> dispose());
 
-        // AJOUTER LE BOUTON AJOUTER QUI MANQUAIT
+       
         buttonPanel.add(btnAjouter);
         buttonPanel.add(btnModifier);
         buttonPanel.add(btnSupprimer);
         buttonPanel.add(btnRafraichir);
         buttonPanel.add(btnFermer);
 
-        // Panneau principal
+        
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        // Titre
+       
         JLabel titre = new JLabel("📦 GESTION DES PRODUITS EN STOCK", SwingConstants.CENTER);
         titre.setFont(new Font("Arial", Font.BOLD, 16));
         titre.setForeground(new Color(30, 60, 90));
@@ -109,10 +109,10 @@ public class GestionStockFrame extends JFrame {
 
         setContentPane(mainPanel);
 
-        // Charger les données initiales DEPUIS LA BASE
+        
         rafraichirTable();
 
-        // Rafraîchir automatiquement toutes les 30 secondes
+        
         Timer timer = new Timer(30000, e -> rafraichirTable());
         timer.setRepeats(true);
         timer.start();
@@ -124,11 +124,11 @@ public class GestionStockFrame extends JFrame {
         AjoutProduitFrame dialog = new AjoutProduitFrame(this);
         dialog.setVisible(true);
 
-        // Rafraîchir après fermeture
+        
         SwingUtilities.invokeLater(() -> {
             try {
                 Thread.sleep(300);
-                rafraichirTable(); // MAINTENANT CELA FONCTIONNE CAR ON A LA MÉTHODE
+                rafraichirTable(); 
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
             }
@@ -148,14 +148,14 @@ public class GestionStockFrame extends JFrame {
         int id = (int) model.getValueAt(selectedRow, 0);
         String nom = (String) model.getValueAt(selectedRow, 1);
 
-        // Récupérer le produit complet depuis la base
+       
         Produit produit = produitDao.trouverProduit(id);
         if (produit == null) {
             JOptionPane.showMessageDialog(this, "Produit introuvable!");
             return;
         }
 
-        // Dialog pour modifier
+        
         JPanel panel = new JPanel(new GridLayout(4, 2, 5, 5));
 
         JTextField txtNom = new JTextField(produit.getNom());
@@ -184,7 +184,7 @@ public class GestionStockFrame extends JFrame {
                 produit.setQuantite(Integer.parseInt(txtQuantite.getText()));
                 produit.setSeuil(Integer.parseInt(txtSeuil.getText()));
 
-                // MAINTENANT CETTE MÉTHODE EXISTE DANS ProduitDao
+                
                 produitDao.updateProduit(produit);
 
                 JOptionPane.showMessageDialog(this,
@@ -223,7 +223,7 @@ public class GestionStockFrame extends JFrame {
                 JOptionPane.WARNING_MESSAGE);
 
         if (confirm == JOptionPane.YES_OPTION) {
-            // MAINTENANT CETTE MÉTHODE EXISTE
+            
             produitDao.supprimerProduit(id);
 
             JOptionPane.showMessageDialog(this,
@@ -234,13 +234,13 @@ public class GestionStockFrame extends JFrame {
     }
 
     public void rafraichirTable() {
-        // Afficher un indicateur de chargement
+        
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
         try {
-            model.setRowCount(0); // Vider la table
+            model.setRowCount(0); 
 
-            // MAINTENANT ON UTILISE LA VRAIE MÉTHODE DE LA BASE
+            
             List<Produit> produits = produitDao.tousLesProduits();
 
             if (produits.isEmpty()) {
@@ -251,7 +251,7 @@ public class GestionStockFrame extends JFrame {
                         JOptionPane.INFORMATION_MESSAGE);
             }
 
-            // Ajouter chaque produit depuis la base
+            
             for (Produit p : produits) {
                 String statut;
                 if (p.getQuantite() == 0) {
@@ -272,10 +272,10 @@ public class GestionStockFrame extends JFrame {
                 });
             }
 
-            // Mettre à jour le titre avec le nombre de produits
+            
             setTitle("Gestion de Stock - " + model.getRowCount() + " produits");
 
-            // Avertir si stock faible
+            
             int stockFaible = 0;
             for (int i = 0; i < model.getRowCount(); i++) {
                 int quantite = (int) model.getValueAt(i, 3);

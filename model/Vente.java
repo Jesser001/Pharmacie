@@ -9,7 +9,7 @@ public class Vente {
     private double montantTotal;
     private int idClient;
 
-    // Constructeur avec paramètres
+    
     public Vente(int idVente, LocalDate dateVente, double montantTotal, int idClient) {
         this.idVente = idVente;
         this.dateVente = dateVente;
@@ -17,12 +17,12 @@ public class Vente {
         this.idClient = idClient;
     }
 
-    // Constructeur par défaut (NÉCESSAIRE)
+    
     public Vente() {
-        // Initialisation par défaut
+        
     }
 
-    // Getters
+    
     public int getIdVente() {
         return idVente;
     }
@@ -39,7 +39,7 @@ public class Vente {
         return idClient;
     }
 
-    // Setters (AJOUTÉS)
+    
     public void setIdVente(int idVente) {
         this.idVente = idVente;
     }

@@ -50,7 +50,7 @@ public class AjoutProduitFrame extends JDialog {
                 int qte = Integer.parseInt(txtQte.getText());
                 int seuil = Integer.parseInt(txtSeuil.getText());
 
-                // Validation
+                
                 if (nom.isEmpty()) {
                     JOptionPane.showMessageDialog(this, "Le nom est obligatoire!");
                     return;
@@ -61,10 +61,10 @@ public class AjoutProduitFrame extends JDialog {
                     return;
                 }
 
-                // Créer l'objet Produit
+                
                 Produit produit = new Produit(0, nom, prix, qte, seuil);
 
-                // Sauvegarder dans la base
+               
                 ProduitDao produitDao = new ProduitDao();
                 produitDao.ajouterProduit(produit);
 
@@ -76,7 +76,7 @@ public class AjoutProduitFrame extends JDialog {
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, "Erreur: " + ex.getMessage());
             }
-        });  // <-- This closes the addActionListener
+        }); 
 
         btnAnnuler.addActionListener(e -> dispose());
 

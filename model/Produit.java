@@ -16,7 +16,7 @@ public class Produit {
         this.seuilAlerte = seuilAlerte;
     }
 
-    // Getters principaux
+    
     public int getIdProduit() {
         return idProduit;
     }
@@ -37,7 +37,7 @@ public class Produit {
         return seuilAlerte;
     }
 
-    // Getters alias pour compatibilité
+    
     public int getId() {
         return idProduit;
     }
@@ -50,7 +50,7 @@ public class Produit {
         return seuilAlerte;
     }
 
-    // Setters
+    
     public void setIdProduit(int idProduit) {
         this.idProduit = idProduit;
     }
@@ -71,7 +71,7 @@ public class Produit {
         this.seuilAlerte = seuilAlerte;
     }
 
-    // Setters alias
+    
     public void setId(int id) {
         this.idProduit = id;
     }

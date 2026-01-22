@@ -25,24 +25,24 @@ public class MenuPrincipalFrame extends JFrame {
 
         JMenuBar menuBar = new JMenuBar();
 
-        // Menu Stock
+        
         JMenu menuStock = new JMenu("Stock");
         JMenuItem itemVoirStock = new JMenuItem("Voir stock");
         menuStock.add(itemVoirStock);
 
-        // Menu Ventes
+        
         JMenu menuVentes = new JMenu("Ventes");
         JMenuItem itemNouvelleVente = new JMenuItem("Nouvelle vente");
         JMenuItem itemHistorique = new JMenuItem("Historique");
         menuVentes.add(itemNouvelleVente);
         menuVentes.add(itemHistorique);
 
-        // Menu Rapports
+        
         JMenu menuRapports = new JMenu("Rapports");
         JMenuItem itemRapports = new JMenuItem("Voir rapports");
         menuRapports.add(itemRapports);
 
-        // Menu Admin (si ADMIN)
+        
         if (utilisateur.getRole().equals("ADMIN")) {
             JMenu menuAdmin = new JMenu("Admin");
             JMenuItem itemGestionUsers = new JMenuItem("Gestion utilisateurs");
@@ -51,7 +51,7 @@ public class MenuPrincipalFrame extends JFrame {
             itemGestionUsers.addActionListener(e -> new GestionUtilisateursFrame());
         }
 
-        // Menu Aide
+        
         JMenu menuAide = new JMenu("Aide");
         JMenuItem itemDeconnexion = new JMenuItem("Deconnexion");
         menuAide.add(itemDeconnexion);
@@ -63,7 +63,7 @@ public class MenuPrincipalFrame extends JFrame {
 
         setJMenuBar(menuBar);
 
-        // Actions
+        
         itemVoirStock.addActionListener(e -> new GestionStockFrame());
         itemNouvelleVente.addActionListener(e -> new NouvelleVenteFrame());
         itemHistorique.addActionListener(e -> new HistoriqueVentesFrame());
@@ -73,14 +73,14 @@ public class MenuPrincipalFrame extends JFrame {
             new LoginFrame();
         });
 
-        // Panel principal
+        
         JPanel panel = new JPanel(new BorderLayout());
         JLabel label = new JLabel("Bienvenue " + utilisateur.getLogin() + " (" + utilisateur.getRole() + ")",
                 SwingConstants.CENTER);
         label.setFont(new Font("Arial", Font.BOLD, 24));
         panel.add(label, BorderLayout.CENTER);
 
-        // Boutons rapides
+        
         JPanel quickPanel = new JPanel(new FlowLayout());
         JButton btnStock = new JButton("Stock");
         JButton btnVente = new JButton("Vente");

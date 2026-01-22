@@ -64,13 +64,10 @@ public class NouvelleVenteFrame extends JFrame {
         txtPrix.setEditable(false);
         inputPanel.add(txtPrix);
 
-        // Bouton pour rechercher le produit
         JButton btnRechercher = new JButton("🔍 Rechercher");
         btnRechercher.addActionListener(e -> {
             try {
                 int id = Integer.parseInt(txtId.getText());
-                // Ici, vous devriez appeler produitDao.trouverProduit(id)
-                // Pour l'instant, simulation
                 txtNom.setText("Produit " + id);
                 txtPrix.setText("10.99");
             } catch (NumberFormatException ex) {
@@ -111,11 +108,11 @@ public class NouvelleVenteFrame extends JFrame {
                 return;
             }
 
-            // Créer la vente avec constructeur par défaut
+            
             Vente vente = new Vente();
             vente.setDateVente(LocalDate.now());
             vente.setMontantTotal(total);
-            vente.setIdClient(1); // Client par défaut
+            vente.setIdClient(1); 
 
             VenteService service = new VenteService();
             service.enregistrerVente(vente);

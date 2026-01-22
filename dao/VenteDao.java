@@ -24,7 +24,7 @@ public class VenteDao {
         }
     }
 
-    // Méthode pour récupérer toutes les ventes
+    
     public List<Vente> toutesLesVentes() {
         List<Vente> ventes = new ArrayList<>();
         String sql = "SELECT * FROM vente ORDER BY date_vente DESC";

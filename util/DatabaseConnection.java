@@ -19,7 +19,7 @@ public class DatabaseConnection {
     private static final String URL = "jdbc:mysql://localhost:3306/pharmacie";
 
     private static final String USER = "root";
-    private static final String PASSWORD = "";
+    private static final String PASSWORD = "lahmerkun1234";
 
     public static Connection getConnection() throws SQLException {
         Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
