@@ -22,6 +22,8 @@ public class DatabaseConnection {
     private static final String PASSWORD = "";
 
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL, USER, PASSWORD);
+        Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+        System.out.println("DEBUG: Auto-commit = " + conn.getAutoCommit());
+        return conn;
     }
 }
