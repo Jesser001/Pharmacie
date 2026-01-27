@@ -1,12 +1,16 @@
 package pharmacie.ui;
 
 import java.awt.BorderLayout;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import pharmacie.dao.VenteDao;
+import pharmacie.model.Vente;
 
 public class HistoriqueVentesFrame extends JFrame {
 
@@ -18,9 +22,11 @@ public class HistoriqueVentesFrame extends JFrame {
         String[] columns = {"ID", "Date", "Client", "Total"};
         DefaultTableModel model = new DefaultTableModel(columns, 0);
 
-        model.addRow(new Object[]{1, "2024-01-15", "Client 1", 145.50});
-        model.addRow(new Object[]{2, "2024-01-15", "Client 2", 89.99});
-        model.addRow(new Object[]{3, "2024-01-16", "Client 3", 1200.75});
+        VenteDao venteDao = new VenteDao();
+        List<Vente> ventes = venteDao.toutesLesVentes();
+        for (Vente v : ventes) {
+            model.addRow(new Object[]{v.getIdVente(), v.getDateVente(), v.getIdClient(), v.getMontantTotal()});
+        }
 
         JTable table = new JTable(model);
         JScrollPane scrollPane = new JScrollPane(table);

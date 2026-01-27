@@ -25,24 +25,24 @@ public class MenuPrincipalFrame extends JFrame {
 
         JMenuBar menuBar = new JMenuBar();
 
-        
         JMenu menuStock = new JMenu("Stock");
         JMenuItem itemVoirStock = new JMenuItem("Voir stock");
         menuStock.add(itemVoirStock);
 
-        
         JMenu menuVentes = new JMenu("Ventes");
         JMenuItem itemNouvelleVente = new JMenuItem("Nouvelle vente");
         JMenuItem itemHistorique = new JMenuItem("Historique");
         menuVentes.add(itemNouvelleVente);
         menuVentes.add(itemHistorique);
 
-        
         JMenu menuRapports = new JMenu("Rapports");
         JMenuItem itemRapports = new JMenuItem("Voir rapports");
         menuRapports.add(itemRapports);
 
-        
+        menuBar.add(menuStock);
+        menuBar.add(menuVentes);
+        menuBar.add(menuRapports);
+
         if (utilisateur.getRole().equals("ADMIN")) {
             JMenu menuAdmin = new JMenu("Admin");
             JMenuItem itemGestionUsers = new JMenuItem("Gestion utilisateurs");
@@ -51,19 +51,22 @@ public class MenuPrincipalFrame extends JFrame {
             itemGestionUsers.addActionListener(e -> new GestionUtilisateursFrame());
         }
 
-        
+        // Nouveau menu Fournisseurs & Commandes (accessible à ADMIN et USER)
+        JMenu menuFournisseurs = new JMenu("Fournisseurs");
+        JMenuItem itemGestionFournisseurs = new JMenuItem("Gestion fournisseurs");
+        JMenuItem itemGestionCommandes = new JMenuItem("Gestion commandes");
+        menuFournisseurs.add(itemGestionFournisseurs);
+        menuFournisseurs.add(itemGestionCommandes);
+        menuBar.add(menuFournisseurs);
+
         JMenu menuAide = new JMenu("Aide");
         JMenuItem itemDeconnexion = new JMenuItem("Deconnexion");
         menuAide.add(itemDeconnexion);
 
-        menuBar.add(menuStock);
-        menuBar.add(menuVentes);
-        menuBar.add(menuRapports);
         menuBar.add(menuAide);
 
         setJMenuBar(menuBar);
 
-        
         itemVoirStock.addActionListener(e -> new GestionStockFrame());
         itemNouvelleVente.addActionListener(e -> new NouvelleVenteFrame());
         itemHistorique.addActionListener(e -> new HistoriqueVentesFrame());
@@ -73,14 +76,15 @@ public class MenuPrincipalFrame extends JFrame {
             new LoginFrame();
         });
 
-        
+        itemGestionFournisseurs.addActionListener(e -> new GestionFournisseursFrame());
+        itemGestionCommandes.addActionListener(e -> new GestionCommandesFrame());
+
         JPanel panel = new JPanel(new BorderLayout());
         JLabel label = new JLabel("Bienvenue " + utilisateur.getLogin() + " (" + utilisateur.getRole() + ")",
                 SwingConstants.CENTER);
         label.setFont(new Font("Arial", Font.BOLD, 24));
         panel.add(label, BorderLayout.CENTER);
 
-        
         JPanel quickPanel = new JPanel(new FlowLayout());
         JButton btnStock = new JButton("Stock");
         JButton btnVente = new JButton("Vente");

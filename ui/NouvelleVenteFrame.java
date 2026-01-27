@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,7 +20,9 @@ import javax.swing.table.DefaultTableModel;
 
 import pharmacie.model.LigneVente;
 import pharmacie.model.Vente;
+import pharmacie.model.Produit;
 import pharmacie.service.VenteService;
+import pharmacie.dao.ProduitDao;
 
 public class NouvelleVenteFrame extends JFrame {
 
@@ -68,8 +71,14 @@ public class NouvelleVenteFrame extends JFrame {
         btnRechercher.addActionListener(e -> {
             try {
                 int id = Integer.parseInt(txtId.getText());
-                txtNom.setText("Produit " + id);
-                txtPrix.setText("10.99");
+                ProduitDao produitDao = new ProduitDao();
+                Produit p = produitDao.trouverProduit(id);
+                if (p != null) {
+                    txtNom.setText(p.getNom());
+                    txtPrix.setText(String.valueOf(p.getPrix()));
+                } else {
+                    JOptionPane.showMessageDialog(this, "Produit introuvable");
+                }
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(this, "ID invalide");
             }
@@ -108,19 +117,31 @@ public class NouvelleVenteFrame extends JFrame {
                 return;
             }
 
-            
             Vente vente = new Vente();
             vente.setDateVente(LocalDate.now());
             vente.setMontantTotal(total);
-            vente.setIdClient(1); 
+            vente.setIdClient(1); // TODO: gestion client
 
             VenteService service = new VenteService();
-            service.enregistrerVente(vente);
+            service.enregistrerVente(vente, lignesVente);
 
-            JOptionPane.showMessageDialog(this,
-                    "Vente enregistrée!\n"
+            // alertes
+            ProduitDao produitDao = new ProduitDao();
+            List<String> alertes = lignesVente.stream()
+                    .map(lv -> produitDao.trouverProduit(lv.getIdProduit()))
+                    .filter(p -> p != null && p.getQuantiteStock() <= p.getSeuilAlerte())
+                    .map(p -> p.getNom() + " (stock: " + p.getQuantiteStock() + ", seuil: " + p.getSeuilAlerte() + ")")
+                    .collect(Collectors.toList());
+
+            String msg = "Vente enregistrée!\n"
                     + "Montant total: " + String.format("%.2f", total) + " EUR\n"
-                    + "Nombre d'articles: " + lignesVente.size());
+                    + "Nombre d'articles: " + lignesVente.size();
+
+            if (!alertes.isEmpty()) {
+                msg += "\n\n⚠️ Produits en dessous du seuil d'alerte:\n" + String.join("\n", alertes);
+            }
+
+            JOptionPane.showMessageDialog(this, msg);
             dispose();
         });
 
